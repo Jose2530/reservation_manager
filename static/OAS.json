@@ -1,0 +1,253 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+	  "title": "Bdb Node.JS template manager",
+	  "version": "1.0.0",
+	  "description": "Bdb Node.JS template application on lambda deploy"
+	},
+	"servers": [
+	  {
+		"url": "https://api.{endpoint}/{basePath}",
+		"description": "Endpoint description here",
+		"variables": {
+		  "basePath": {
+			"default": "/my-context"
+		  },
+		  "endpoint": {
+			"default": "localhost:8001",
+			"enum": ["labdigbdbqacad.com", "labdigitalbdbstgcad.com", "labdigitalbdbcad.com"]
+		  }
+		}
+	  }
+	],
+	"paths": {
+	  "/V1/create/movie": {
+		"post": {
+		  "summary": "Crear una nueva película",
+		  "operationId": "createMovie",
+		  "requestBody": {
+			"description": "Datos de la película a crear",
+			"required": true,
+			"content": {
+			  "application/json": {
+				"schema": {
+				  "$ref": "#/components/schemas/Movie"
+				}
+			  }
+			}
+		  },
+		  "responses": {
+			"200": {
+			  "description": "Película creada correctamente"
+			},
+			"500": {
+			  "description": "Error al crear la película"
+			}
+		  }
+		}
+	  },
+	  "/V1/create/rooms": {
+		"post": {
+		  "summary": "Crear una nueva sala",
+		  "operationId": "createRoom",
+		  "requestBody": {
+			"description": "Datos de la sala a crear",
+			"required": true,
+			"content": {
+			  "application/json": {
+				"schema": {
+				  "$ref": "#/components/schemas/Room"
+				}
+			  }
+			}
+		  },
+		  "responses": {
+			"201": {
+			  "description": "Sala registrada correctamente"
+			},
+			"500": {
+			  "description": "Error al registrar la sala"
+			}
+		  }
+		}
+	  },
+	  "/V1/create/reservation": {
+		"post": {
+		  "summary": "Crear una nueva reserva",
+		  "operationId": "createReservation",
+		  "requestBody": {
+			"description": "Datos de la reserva a crear",
+			"required": true,
+			"content": {
+			  "application/json": {
+				"schema": {
+				  "$ref": "#/components/schemas/Reservation"
+				}
+			  }
+			}
+		  },
+		  "responses": {
+			"201": {
+			  "description": "Reserva creada correctamente"
+			},
+			"500": {
+			  "description": "Error al crear la reserva"
+			}
+		  }
+		}
+	  },
+	  "/V1/list/movie": {
+		"get": {
+		  "summary": "Listar todas las películas",
+		  "operationId": "listMovie",
+		  "responses": {
+			"200": {
+			  "description": "Películas listadas correctamente",
+			  "content": {
+				"application/json": {
+				  "schema": {
+					"type": "array",
+					"items": {
+					  "$ref": "#/components/schemas/Movie"
+					}
+				  }
+				}
+			  }
+			},
+			"500": {
+			  "description": "Error al listar las películas"
+			}
+		  }
+		}
+	  },
+	  "/V1/list/rooms": {
+		"get": {
+		  "summary": "Listar todas las salas",
+		  "operationId": "listRoom",
+		  "responses": {
+			"200": {
+			  "description": "Salas listadas correctamente",
+			  "content": {
+				"application/json": {
+				  "schema": {
+					"type": "array",
+					"items": {
+					  "$ref": "#/components/schemas/Room"
+					}
+				  }
+				}
+			  }
+			},
+			"500": {
+			  "description": "Error al listar las películas"
+			}
+		  }
+		}
+	  },
+	  "/V1/list/reservation": {
+		"get": {
+		  "summary": "Listar todas las reservas",
+		  "operationId": "listReservation",
+		  "responses": {
+			"200": {
+			  "description": "reservas listadas correctamente",
+			  "content": {
+				"application/json": {
+				  "schema": {
+					"type": "array",
+					"items": {
+					  "$ref": "#/components/schemas/Reservation"
+					}
+				  }
+				}
+			  }
+			},
+			"500": {
+			  "description": "Error al listar las películas"
+			}
+		  }
+		}
+	  }
+	},
+	"components": {
+	  "schemas": {
+		"Movie": {
+		  "type": "object",
+		  "properties": {
+			"id": {
+			  "type": "number",
+			  "description": "id de la pelicula"
+			},
+			"title": {
+			  "type": "string",
+			  "description": "Título de la película"
+			},
+			"gender": {
+			  "type": "string",
+			  "description": "Género de la película"
+			},
+			"duration": {
+			  "type": "number",
+			  "description": "Duración de la película en minutos"
+			},
+			"clasification": {
+			  "type": "string",
+			  "description": "Clasificación de la película"
+			},
+			"description": {
+				"type": "string",
+				"description": "Descripción de la película"
+			  }
+		  },
+		  "required": ["title", "gender", "duration", "clasification", "description"]
+		},
+		"Room": {
+		  "type": "object",
+		  "properties": {
+			"name": {
+			  "type": "string",
+			  "description": "Nombre de la sala"
+			},
+			"capacity": {
+			  "type": "number",
+			  "description": "Capacidad de la sala"
+			}
+		  },
+		  "required": ["name", "capacity"]
+		},
+		"Reservation": {
+		  "type": "object",
+		  "properties": {
+			"idReservation": {
+			  "type": "string",
+			  "description": "ID de la reserva"
+			},
+			"movie": {
+			  "type": "string",
+			  "description": "Película reservada"
+			},
+			"room": {
+			  "type": "string",
+			  "description": "Sala reservada"
+			},
+			"schedule": {
+			  "type": "string",
+			  "description": "Hora de la reserva"
+			},
+			"emailAddres": {
+				"type": "string",
+				"description": "correo de Notificación"
+			  }, 
+			"selectedSeats": {
+			    "type": "array",
+				"description": "correo de Notificación"
+			  } 
+		  },
+		  "required": [ "movie", "room", "schedule", "emailAddres", "selectedSeats"]
+		}
+	  },
+	  "responses": {},
+	  "parameters": {},
+	  "securitySchemes": {}
+	}
+  }
